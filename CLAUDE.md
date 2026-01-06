@@ -1,17 +1,19 @@
-# mcmc-tech - 技術ブログ兼ポートフォリオ
+# tech-blog - 技術ブログ
 
 ## プロジェクト概要
 
-GitHub Pagesでホスティングする技術ブログ兼ポートフォリオサイト。
+GitHub Pagesでホスティングする技術ブログサイト。
+[astro-paper](https://github.com/satnaing/astro-paper) テンプレートベース。
 
 ## 技術スタック
 
 | カテゴリ | 技術 |
 |---------|------|
-| フレームワーク | Astro |
-| コンテンツ形式 | Markdown |
-| スタイリング | Tailwind CSS |
-| シンタックスハイライト | Shiki |
+| テンプレート | astro-paper |
+| フレームワーク | Astro 5.x |
+| スタイリング | Tailwind CSS 4.x |
+| 検索 | Pagefind |
+| OGP生成 | satori + sharp |
 | パッケージマネージャー | pnpm |
 | デプロイ | GitHub Actions → GitHub Pages |
 
@@ -20,11 +22,11 @@ GitHub Pagesでホスティングする技術ブログ兼ポートフォリオ�
 ```
 .
 ├── CLAUDE.md              # このファイル
-├── docs/                  # 仕様書・設計ドキュメント
-│   └── ...
 ├── .steering/             # 作業用ディレクトリ（日付ベース）
-│   └── [YYYY-MM-DD]-xxx/  # 例: 2024-01-15-css-fix/
-└── src/                   # Astroソースコード
+│   └── [YYYY-MM-DD]-xxx/  # 例: 2026-01-06-astro-paper-migration/
+├── src/                   # Astroソースコード
+├── public/                # 静的アセット
+└── astro.config.ts        # Astro設定
 ```
 
 ### `.steering/` ディレクトリについて
@@ -33,58 +35,37 @@ GitHub Pagesでホスティングする技術ブログ兼ポートフォリオ�
 
 命名規則: `[YYYY-MM-DD]-作業内容`
 
-例:
-- `2024-01-15-initial-setup/`
-- `2024-01-16-blog-component/`
-- `2024-01-17-css-fix/`
-
-## 機能要件
-
-### ブログ機能
-- [ ] タグ機能（記事の分類・フィルタリング）
-- [ ] 記事検索（キーワード検索）
-- [ ] シリーズ機能（関連記事のグルーピング）
-- [ ] OGP画像自動生成（記事タイトルから動的に生成）
-
-### ポートフォリオ機能
-- [ ] プロジェクト一覧（カード形式で過去の制作物を表示）
-- [ ] スキル一覧（技術スタックのビジュアル表示）
-- [ ] 自己紹介ページ（About）
-
-### UI/UX
-- [ ] ダーク/ライトモード切替
-- [ ] 多言語対応（日本語 / English）
-- [ ] ミニマルなデザイン
-- [ ] レスポンシブ対応
-
 ## ディレクトリ構成（Astro）
 
 ```
 src/
-├── components/       # 共通コンポーネント
-├── content/
-│   ├── blog/         # ブログ記事 (Markdown)
-│   │   ├── ja/       # 日本語記事
-│   │   └── en/       # 英語記事
-│   └── projects/     # プロジェクト情報
+├── assets/           # 画像・アイコン
+├── components/       # コンポーネント
+├── data/
+│   └── blog/         # ブログ記事 (Markdown)
 ├── layouts/          # レイアウト
-├── pages/
-│   ├── ja/           # 日本語ページ
-│   └── en/           # 英語ページ
-├── i18n/             # 翻訳ファイル
-└── styles/           # グローバルスタイル
+├── pages/            # ページ
+├── styles/           # スタイル
+├── utils/            # ユーティリティ
+├── config.ts         # サイト設定
+├── constants.ts      # 定数
+└── content.config.ts # コンテンツ設定
+
 public/
-├── images/           # 画像アセット
-└── fonts/            # フォント（必要に応じて）
+├── assets/           # 静的アセット
+├── favicon.svg       # ファビコン
+└── toggle-theme.js   # テーマ切替スクリプト
 ```
 
 ## コマンド
 
 ```bash
 pnpm install          # 依存関係インストール
-pnpm dev              # 開発サーバー起動
-pnpm build            # 本番ビルド
+pnpm dev              # 開発サーバー起動 (localhost:4321)
+pnpm build            # 本番ビルド（astro check + build + pagefind）
 pnpm preview          # ビルド結果のプレビュー
+pnpm format           # コードフォーマット
+pnpm lint             # ESLint実行
 ```
 
 ## 開発ガイドライン
@@ -93,21 +74,25 @@ pnpm preview          # ビルド結果のプレビュー
 
 ```yaml
 ---
+author: "著者名"
+pubDatetime: 2026-01-01T00:00:00+09:00
+modDatetime: 2026-01-02T00:00:00+09:00  # 任意
 title: "記事タイトル"
-description: "記事の説明"
-pubDate: 2024-01-01
-updatedDate: 2024-01-02  # 任意
-tags: ["astro", "typescript"]
-series: "シリーズ名"      # 任意
+slug: article-slug                       # 任意（自動生成可）
+featured: false
 draft: false
+tags:
+  - tag1
+  - tag2
+description: "記事の説明"
+ogImage: ""                              # 任意
 ---
 ```
 
-### 多言語対応
+### 記事の配置
 
-- デフォルト言語: 日本語
-- 対応言語: 日本語 (ja), 英語 (en)
-- URL構造: `/ja/blog/...`, `/en/blog/...`
+ブログ記事は `src/data/blog/` ディレクトリに配置。
+サブディレクトリでの整理も可能（v5.1.0+）。
 
 ### コーディング規約
 
@@ -116,14 +101,33 @@ draft: false
 - Tailwind CSS のユーティリティクラスを活用
 - アクセシビリティ（a11y）を考慮
 
-## 不要な機能（スコープ外）
+## 機能
 
+### 実装済み
+- [x] タグ機能（記事の分類・フィルタリング）
+- [x] 記事検索（Pagefindによるファジー検索）
+- [x] OGP画像自動生成（satori + sharp）
+- [x] ダーク/ライトモード切替
+- [x] レスポンシブ対応
+- [x] RSSフィード
+- [x] サイトマップ
+
+### スコープ外
 - コメント機能
 - アナリティクス
-- RSS フィード
+- 多言語対応（日本語のみ）
+
+## 設定ファイル
+
+### `src/config.ts`
+サイトの基本設定（タイトル、説明、著者、言語など）
+
+### `astro.config.ts`
+Astroの設定（site, base, マークダウン設定など）
 
 ## 参考リンク
 
+- [AstroPaper公式](https://astro-paper.pages.dev/)
+- [AstroPaper GitHub](https://github.com/satnaing/astro-paper)
 - [Astro Documentation](https://docs.astro.build)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [GitHub Pages](https://pages.github.com/)
