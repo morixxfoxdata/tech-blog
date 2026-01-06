@@ -2,12 +2,12 @@
 
 ## Phase 1: プロジェクトセットアップ
 
-- [ ] Astroプロジェクト初期化 (`pnpm create astro@latest`)
-- [ ] Tailwind CSS導入・設定
-- [ ] TypeScript設定
-- [ ] ディレクトリ構造作成
-- [ ] EditorConfig / Prettier / ESLint設定
-- [ ] Git初期化・.gitignore設定
+- [x] Astroプロジェクト初期化 (`pnpm create astro@latest`)
+- [x] Tailwind CSS導入・設定
+- [x] TypeScript設定
+- [x] ディレクトリ構造作成
+- [x] EditorConfig / Prettier / ESLint設定
+- [x] Git初期化・.gitignore設定
 
 ---
 
@@ -15,25 +15,25 @@
 
 ### レイアウト
 
-- [ ] `BaseLayout.astro` 作成
-- [ ] `<head>` コンポーネント（SEO/OGP対応）
-- [ ] `Header` コンポーネント
-- [ ] `Footer` コンポーネント
-- [ ] `Navigation` コンポーネント
+- [x] `BaseLayout.astro` 作成
+- [x] `<head>` コンポーネント（SEO/OGP対応）
+- [x] `Header` コンポーネント
+- [x] `Footer` コンポーネント
+- [x] `Navigation` コンポーネント
 
 ### テーマ切替
 
-- [ ] ダーク/ライトモード切替ロジック実装
-- [ ] `ThemeToggle` コンポーネント作成
-- [ ] Tailwind dark mode設定
-- [ ] フラッシュ防止スクリプト
+- [x] ダーク/ライトモード切替ロジック実装
+- [x] `ThemeToggle` コンポーネント作成
+- [x] Tailwind dark mode設定
+- [x] フラッシュ防止スクリプト
 
 ### 多言語対応
 
-- [ ] i18nユーティリティ作成
-- [ ] 翻訳ファイル作成 (ja.json, en.json)
-- [ ] `LanguageSwitcher` コンポーネント
-- [ ] ルートリダイレクト設定
+- [x] i18nユーティリティ作成
+- [x] 翻訳ファイル作成 (ja.json, en.json)
+- [x] `LanguageSwitcher` コンポーネント
+- [x] ルートリダイレクト設定
 
 ---
 
@@ -41,26 +41,26 @@
 
 ### Content Collection
 
-- [ ] Blog用Content Collection定義
-- [ ] サンプル記事作成（日英各1件）
+- [x] Blog用Content Collection定義
+- [x] サンプル記事作成（日英各1件）
 
 ### 記事一覧
 
-- [ ] 記事一覧ページ (`/ja/blog/`, `/en/blog/`)
-- [ ] `BlogCard` コンポーネント
+- [x] 記事一覧ページ (`/ja/blog/`, `/en/blog/`)
+- [x] `BlogCard` コンポーネント
 - [ ] ページネーション（必要に応じて）
 
 ### 記事詳細
 
-- [ ] 記事詳細ページ (`/ja/blog/[slug]`)
-- [ ] `BlogLayout.astro` 作成
+- [x] 記事詳細ページ (`/ja/blog/[slug]`)
+- [x] `BlogLayout.astro` 作成
 - [ ] 目次（ToC）コンポーネント（任意）
 - [ ] 前後記事ナビゲーション
 
 ### タグ機能
 
-- [ ] タグ一覧ページ (`/ja/tags/`)
-- [ ] タグ別記事一覧 (`/ja/tags/[tag]`)
+- [x] タグ一覧ページ (`/ja/tags/`)
+- [x] タグ別記事一覧 (`/ja/tags/[tag]`)
 - [ ] `TagList` コンポーネント
 
 ### シリーズ機能
@@ -81,12 +81,12 @@
 
 ### Content Collection
 
-- [ ] Project用Content Collection定義
+- [x] Project用Content Collection定義
 - [ ] サンプルプロジェクト作成
 
 ### プロジェクト一覧
 
-- [ ] プロジェクト一覧ページ (`/ja/projects/`)
+- [x] プロジェクト一覧ページ (`/ja/projects/`)
 - [ ] `ProjectCard` コンポーネント
 
 ### プロジェクト詳細
@@ -101,9 +101,9 @@
 
 ### Aboutページ
 
-- [ ] Aboutページ (`/ja/about/`)
-- [ ] プロフィールセクション
-- [ ] SNSリンク
+- [x] Aboutページ (`/ja/about/`)
+- [x] プロフィールセクション
+- [x] SNSリンク
 
 ---
 
@@ -126,7 +126,7 @@
 
 ## Phase 6: スタイリング
 
-- [ ] グローバルスタイル設定
+- [x] グローバルスタイル設定
 - [ ] タイポグラフィ調整
 - [ ] レスポンシブ対応確認
 - [ ] ダークモード全体確認
@@ -136,9 +136,9 @@
 
 ## Phase 7: デプロイ
 
-- [ ] GitHub Actions ワークフロー作成
-- [ ] GitHub Pages設定
-- [ ] 本番デプロイ確認
+- [x] GitHub Actions ワークフロー作成
+- [x] GitHub Pages設定
+- [x] 本番デプロイ確認
 - [ ] カスタムドメイン設定（任意）
 
 ---
