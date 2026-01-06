@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BlogCard from '@components/blog/BlogCard.astro';
+import { useTranslations } from '@i18n/index';
+
+const t = useTranslations('ja');
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ id, data }) => {
+    return id.startsWith('ja/') && !data.draft;
+  });
+
+  const tags = new Set<string>();
+  posts.forEach((post) => {
+    post.data.tags.forEach((tag) => tags.add(tag));
+  });
+
+  return [...tags].map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((post) => post.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`${tag} - ${t('common.tags')}`} description={`${tag}タグの記事一覧`}>
+  <div class="mx-auto max-w-4xl px-4 py-16">
+    <header class="mb-12">
+      <a href="/ja/tags" class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+        ← {t('common.tags')}
+      </a>
+      <h1 class="mt-4 text-3xl font-bold">
+        <span class="text-gray-500 dark:text-gray-400">#</span>{tag}
+      </h1>
+      <p class="mt-2 text-gray-600 dark:text-gray-400">
+        {posts.length}件の記事
+      </p>
+    </header>
+
+    <div class="grid gap-6">
+      {posts.map((post) => (
+        <BlogCard post={post} lang="ja" />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

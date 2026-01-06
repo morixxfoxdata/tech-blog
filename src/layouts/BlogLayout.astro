@@ -1,0 +1,75 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { getLangFromUrl, useTranslations } from '@i18n/index';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, tags } = post.data;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const formattedPubDate = pubDate.toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdatedDate = updatedDate?.toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="mx-auto max-w-3xl px-4 py-16">
+    <!-- Header -->
+    <header class="mb-12">
+      <div class="mb-4 flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+        <time datetime={pubDate.toISOString()}>
+          {t('common.publishedAt')}: {formattedPubDate}
+        </time>
+        {updatedDate && (
+          <>
+            <span>•</span>
+            <time datetime={updatedDate.toISOString()}>
+              {t('common.updatedAt')}: {formattedUpdatedDate}
+            </time>
+          </>
+        )}
+      </div>
+      <h1 class="text-3xl font-bold leading-tight md:text-4xl">{title}</h1>
+      {tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <a
+              href={`/${lang}/tags/${tag}`}
+              class="inline-block rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- Content -->
+    <div class="prose prose-gray dark:prose-invert max-w-none">
+      <slot />
+    </div>
+
+    <!-- Back to blog -->
+    <div class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
+      <a
+        href={`/${lang}/blog`}
+        class="text-primary dark:text-primary-dark hover:underline"
+      >
+        ← {t('blog.allPosts')}
+      </a>
+    </div>
+  </article>
+</BaseLayout>

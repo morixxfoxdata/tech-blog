@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { useTranslations } from '@i18n/index';
+
+const t = useTranslations('ja');
+
+// TODO: Get projects from content collection
+const projects: Array<{
+  title: string;
+  description: string;
+  technologies: string[];
+  githubUrl?: string;
+  demoUrl?: string;
+}> = [];
+---
+
+<BaseLayout title={t('projects.title')} description={t('projects.description')}>
+  <div class="mx-auto max-w-4xl px-4 py-16">
+    <header class="mb-12">
+      <h1 class="text-3xl font-bold">{t('projects.title')}</h1>
+      <p class="mt-2 text-gray-600 dark:text-gray-400">{t('projects.description')}</p>
+    </header>
+
+    {projects.length > 0 ? (
+      <div class="grid gap-6 md:grid-cols-2">
+        {projects.map((project) => (
+          <article class="rounded-lg border border-gray-200 p-6 dark:border-gray-800">
+            <h3 class="text-xl font-semibold">{project.title}</h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">{project.description}</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {project.technologies.map((tech) => (
+                <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <div class="mt-4 flex gap-4">
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-primary hover:underline dark:text-primary-dark"
+                >
+                  {t('projects.viewCode')}
+                </a>
+              )}
+              {project.demoUrl && (
+                <a
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-primary hover:underline dark:text-primary-dark"
+                >
+                  {t('projects.viewDemo')}
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="text-gray-600 dark:text-gray-400">プロジェクトがまだありません。</p>
+    )}
+  </div>
+</BaseLayout>

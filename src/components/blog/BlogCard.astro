@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '@i18n/index';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  lang: 'ja' | 'en';
+}
+
+const { post, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const { title, description, pubDate, tags } = post.data;
+const slug = post.id.replace(`${lang}/`, '');
+const href = `/${lang}/blog/${slug.replace('.md', '')}`;
+
+const formattedDate = pubDate.toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="group">
+  <a href={href} class="block">
+    <div class="rounded-lg border border-gray-200 p-6 transition-colors hover:border-gray-300 dark:border-gray-800 dark:hover:border-gray-700">
+      <time class="text-sm text-gray-500 dark:text-gray-400" datetime={pubDate.toISOString()}>
+        {formattedDate}
+      </time>
+      <h3 class="mt-2 text-xl font-semibold group-hover:text-primary dark:group-hover:text-primary-dark">
+        {title}
+      </h3>
+      <p class="mt-2 text-gray-600 dark:text-gray-400 line-clamp-2">
+        {description}
+      </p>
+      {tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span class="inline-block rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  </a>
+</article>
