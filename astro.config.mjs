@@ -4,7 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.github.io', // TODO: 実際のURLに変更
+  site: 'https://morixxfoxdata.github.io',
+  base: '/tech-blog',
   vite: {
     plugins: [tailwindcss()],
   },
